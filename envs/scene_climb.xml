@@ -1,0 +1,41 @@
+<mujoco model="go1_climb_scene">
+  <include file="go1_torque.xml"/>
+
+  <visual>
+    <headlight diffuse="0.65 0.65 0.65" ambient="0.35 0.35 0.35" specular="0.1 0.1 0.1"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="135" elevation="-18" offwidth="1280" offheight="720"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0.05 0.08 0.12" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.22 0.28 0.35" rgb2="0.14 0.18 0.24"
+      markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.15"/>
+    <material name="ramp_mat" rgba="0.28 0.48 0.65 1.0"/>
+    <material name="step_mat" rgba="0.65 0.42 0.22 1.0"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 -2 3" dir="0 0.5 -0.9" directional="true"/>
+    <light pos="3 2 4" dir="-0.4 -0.3 -0.8"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane" friction="1.0 0.02 0.01"/>
+
+    <!-- Rampa de subida (~7 grados, longitud 1.6m, sube suavemente de z=0 a z=0.195m) -->
+    <geom name="ramp_up" type="box" pos="1.55 0.0 0.073" euler="0 -0.122 0" size="0.80 1.2 0.025"
+          material="ramp_mat" friction="1.0 0.02 0.01"/>
+
+    <!-- Plataforma superior tras la rampa (al ras a z=0.195m) -->
+    <geom name="platform_top" type="box" pos="2.80 0.0 0.170" size="0.50 1.2 0.025"
+          material="ramp_mat" friction="1.0 0.02 0.01"/>
+
+    <!-- Rampa de bajada suave (~7 grados, regresa al ras a z=0) -->
+    <geom name="ramp_down" type="box" pos="4.05 0.0 0.073" euler="0 0.122 0" size="0.80 1.2 0.025"
+          material="ramp_mat" friction="1.0 0.02 0.01"/>
+
+    <!-- 3 Escalones bajos de 1.5 cm por escalon para cruce fluido completo -->
+    <geom name="step_1" type="box" pos="5.20 0.0 0.0075" size="0.30 1.2 0.0075" material="step_mat" friction="1.0 0.02 0.01"/>
+    <geom name="step_2" type="box" pos="5.80 0.0 0.0150" size="0.30 1.2 0.0150" material="step_mat" friction="1.0 0.02 0.01"/>
+    <geom name="step_3" type="box" pos="6.40 0.0 0.0075" size="0.30 1.2 0.0075" material="step_mat" friction="1.0 0.02 0.01"/>
+  </worldbody>
+</mujoco>
